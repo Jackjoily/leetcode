@@ -17,6 +17,12 @@ public class JianZhiOffer46 {
 
 	int count = 0;
 
+	/**
+	 * 使用滚动数组的思想
+	 * 
+	 * @param num
+	 * @return
+	 */
 	public int translateNum(int num) {
 		String str = String.valueOf(num);
 		int[] intArray = new int[str.length()];
@@ -39,7 +45,7 @@ public class JianZhiOffer46 {
 			list.add(str[i]);
 			f(str, i + 1);
 			list.removeLast();
-			if (i + 1 < str.length) {
+			if (i + 1 < str.length && str[i] != 0) {
 				int q = (str[i] * 10 + str[i + 1]);
 				if (q <= 25) {
 					list.add(str[i]);
