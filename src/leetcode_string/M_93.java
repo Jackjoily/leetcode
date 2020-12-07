@@ -1,8 +1,10 @@
 package leetcode_string;
 
-import java.util.HashMap;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
@@ -19,53 +21,60 @@ import java.util.Map;
  */
 public class M_93 {
 	public static void main(String[] args) {
-		String a = "25525511135";
-		char[] charArray = a.toCharArray();
-		StringBuilder sb = new StringBuilder();
-		f(charArray, 0, 0, sb);
-	}
+		M_93 m = new M_93();
+		String a = "010010";
 
+		System.out.println(m.restoreIpAddresses(a));
+	}
+	List<String> res = new ArrayList<>();
 	public List<String> restoreIpAddresses(String s) {
-
-		return null;
+		int len = s.length();
+		if (len < 4 || len > 12) {
+			return res;
+		}
+		LinkedList<String> list = new LinkedList<>();
+		f(s, len, 0, 0, list);
+		return res;
+	}
+	public int isOkay(String s, int left, int right) {
+		int len = right - left + 1;
+		if (len > 1 && s.charAt(left) - '0' == 0) {
+			return -1;
+		}
+		int res = 0;
+		for (int i = left; i <= right; i++) {
+			res = res * 10 + s.charAt(i) - '0';
+		}
+		if (res > 255)
+			return -1;
+		return res;
 	}
 
-	public static void f(char a[], int start, int count, StringBuilder sb) {
-		if (count == 4) {
-			System.out.println(sb.toString());
-			return;
-		} else if (count < 4&&start<a.length-3) {
-			if (sb.length() == 0) {
-				sb.append(a[start]);
-				sb.append(".");
-				f(a, start + 1, count + 1, sb);
-				sb.replace(sb.length() - 1, sb.length(), a[start + 1] + "");
-				sb.append(".");
-				f(a, start + 2, count + 1, sb);
-				sb.replace(sb.length() - 1, sb.length(), a[start + 2] + "");
-				sb.append(".");
-				f(a, start + 3, count + 1, sb);
-			} else {
-				if (count < 4) {
-					if (sb.substring(sb.length() - 1, sb.length()).equals(".")) {
-						if (a[start] - '0' > 2)
-							return;
-						else {
-							sb.append(a[start]);
-							sb.append(".");
-							f(a, start + 1, count + 1, sb);
-							sb.replace(sb.length() - 1, sb.length(), a[start + 1] + "");
-							sb.append(".");
-							f(a, start + 2, count + 1, sb);
-							sb.replace(sb.length() - 1, sb.length(), a[start + 2] + "");
-							sb.append(".");
-							f(a, start + 3, count + 1, sb);
-						}
-					}
-				}
-
+	public void f(String s, int len, int count, int begin, LinkedList<String> list) {
+		if (len == begin) {
+			if (count == 4) {
+				res.add(String.join(".", list));
 			}
+			return;
+		}
+		if(count>4)return ;
+		for (int i = 0; i < 3; i++) {
+			if (begin + i >= len) {
+				return;
+			}
+			if (len - begin < (4 - count) || len - begin > (4 - count) * 3) {
+				return;
+			}
+			int okay = isOkay(s, begin, begin + i);
+			if (okay != -1) {
+				list.add(okay + "");
+				f(s, len, count + 1, begin + i + 1, list);
+				list.removeLast();
+			} else {
+			}
+
 		}
 
 	}
+
 }
