@@ -1,2 +1,3 @@
-# leetcode jackjoily
-我的LeetCode代码2020-10-27
+{{'a','b','c','e'},
+				{'s','f','c','s'},
+				{'a','d','e','e'}};
