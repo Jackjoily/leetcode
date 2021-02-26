@@ -37,7 +37,16 @@ public class JianZhiOffer35 {
 		n10.next = n1;
 		n10.random = n11;
 		n1.random = n7;
-		copyRandomList(n7);
+		PrintNode(copyRandomList(n7));
+		PrintNode(copyRandomList1(n7));
+	}
+
+	public static void PrintNode(Node head) {
+		while (head != null) {
+			System.out.print(head.val + " ");
+			head = head.next;
+		}
+		System.out.println("=============");
 	}
 
 	public static Node copyRandomList(Node head) {
@@ -77,6 +86,40 @@ public class JianZhiOffer35 {
 		}
 		return k;
 	}
+
+	public static Node copyRandomList1(Node head) {
+		if (head == null)
+			return head;
+		Node p = head;
+		Node q = null;
+		while (p != null) {
+			q = p.next;
+			Node node = new Node(p.val);
+			p.next = node;
+			node.next = q;
+			p = q;
+		}
+		p = head;
+		Node n = null;
+		while (p != null) {
+			n = p.next.next;
+			q = p.next;
+			q.random = p.random == null ? null : p.random.next;
+			p = n;
+		}
+		Node res = head.next;
+		p = head;
+		// 拆分
+		while (p != null) {
+			n = p.next.next;
+			q = p.next;
+			q.next = n;
+			p.next = n != null ? n.next : null;
+			p = n;
+		}
+		return res;
+	}
+
 }
 
 class Node {
@@ -94,5 +137,5 @@ class Node {
 	public String toString() {
 		return "Node [val=" + val + ", next=" + next + "]";
 	}
-	
+
 }

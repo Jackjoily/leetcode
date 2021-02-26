@@ -17,10 +17,12 @@ public class ListNode {
 	}
 
 	public static void print(ListNode node) {
+		System.out.println("===========");
 		while (node != null) {
 			System.out.println(node.val);
 			node = node.next;
 		}
+		System.out.println("===========");
 	}
 
 	public static ListNode create(int n) {

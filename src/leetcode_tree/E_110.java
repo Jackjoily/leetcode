@@ -1,5 +1,9 @@
 package leetcode_tree;
-
+/**
+ * 判断二叉树是否是平衡二叉树
+ * @author jackjoily
+ *
+ */
 public class E_110 {
 	public boolean isBalanced(TreeNode root) {
 		if (root == null) {
