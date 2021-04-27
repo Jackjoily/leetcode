@@ -35,4 +35,15 @@ public class ListNode {
 		}
 		return p.next;
 	}
+
+	public static ListNode reverseCreate(int n) {
+		ListNode l = new ListNode();
+		ListNode p = l;
+		for (int i = n; i >= 1; i--) {
+			ListNode q = new ListNode(i);
+			l.next = q;
+			l = q;
+		}
+		return p.next;
+	}
 }

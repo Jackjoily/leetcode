@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
@@ -70,4 +71,26 @@ public class M_3 {
 		return max;
 	}
 
+	public int lengthOfLongestSubstring2(String s) {
+		int n = s.length();
+		if (n <= 1)
+			return n;
+		int left = 0;
+		int right = -1;
+		int max = 1;
+		char c[] = s.toCharArray();
+		Set<Character> set = new HashSet<>();
+		while (left < n) {
+			if (left != 0) {
+				set.remove(c[left - 1]);
+			}
+			while (right + 1 <= n && !set.contains(c[right + 1])) {
+				set.add(c[right + 1]);
+				right++;
+			}
+			max = Math.max(max, right - left + 1);
+			left++;
+		}
+		return max;
+	}
 }

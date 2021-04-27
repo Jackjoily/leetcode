@@ -7,50 +7,40 @@ import com.sun.swing.internal.plaf.metal.resources.metal_ja;
 public class MergeSort {
 
 	public static void main(String[] args) {
+		MergeSort m = new MergeSort();
 		int a[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
-		int[] temp = new int[a.length];
-		sort(a, 0, a.length - 1, temp);
-		System.out.println(count);
+		m.mergeSort(a, 0, a.length - 1);
+		System.out.println(Arrays.toString(a));
 	}
 
-	/**
-	 * 
-	 * @param a
-	 *            a[left...right]
-	 * @param left
-	 * @param right
-	 */
-	public static void sort(int a[], int left, int right, int[] temp) {
-		if (left < right) {
-			int mid = (left + right) / 2;
-			sort(a, left, mid, temp);
-			sort(a, mid + 1, right, temp);
-			merge(a, left, mid, right, temp);
+	int temp[] = new int[1000];
+
+	public void mergeSort(int a[], int low, int high) {
+		if (low < high) {
+			int mid = (low + high) / 2;
+			mergeSort(a, low, mid);
+			mergeSort(a, mid + 1, high);
+			merge(a, low, mid, high, temp);
 		}
 	}
 
-	static int count = 0;
+	public void merge(int a[], int low, int mid, int high, int temp[]) {
+		int i = 0, j = 0, k = 0;
+		for (k = low; k <= high; k++) {
+			temp[k] = a[k];
+		}
+		for (i = low, j = mid + 1, k = i; i <= mid && j <= high; k++) {
+			if (temp[i] < temp[j]) {
+				a[k] = temp[i++];
+			} else {
+				a[k] = temp[j++];
+			}
+		}
+		while (i <= mid)
+			a[k++] = temp[i++];
+		while (j <= high)
+			a[k++] = temp[j++];
 
-	public static void merge(int a[], int left, int mid, int right, int[] temp) {
-		int i = left;
-		int j = mid + 1;
-		int k = left;
-		while (i <= mid && j <= right) {
-			if (a[i] < a[j]) {
-				temp[k++] = a[i++];
-			} else
-				count += (mid - i + 1);
-				temp[k++] = a[j++];
-		}
-		while (i <= mid) {
-			temp[k++] = a[i++];
-		}
-		while (j <= right) {
-			temp[k++] = a[j++];
-		}
-		for (k = left; k <= right; k++) {
-			a[k] = temp[k];
-		}
 	}
 
 }
