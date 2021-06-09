@@ -13,6 +13,7 @@ import java.util.Queue;
 import javafx.scene.shape.Line;
 import leetcode_list.ListNode;
 import leetcode_tree.TreeNode;
+import leetcode_tree.TreeUtils;
 
 /**
  * 
@@ -24,47 +25,40 @@ public class M_113 {
 
 	public static void main(String[] args) {
 		M_113 m = new M_113();
-		String str = "a";
-		c = str.toCharArray();
-		LinkedList<String> list = new LinkedList<>();
-	System.out.println(m.partition(str));
+		Integer a[] = { 1, -2, -3, 1, 3, -2, null, -1 };
+		TreeNode tree = TreeUtils.createBinaryTreeByArray(a);
+		LinkedList<Integer> list = new LinkedList<>();
+		pathSum(tree, -1);
+		System.out.println(list1);
 	}
 
-	List<List<String>> list1 = new ArrayList<>();
+	static List<List<Integer>> list1 = new ArrayList<>();
 
-	public List<List<String>> partition(String s) {
-		c = s.toCharArray();
-		LinkedList<String> list = new LinkedList<>();
-		f(s, list, 0, s.length());
+	public static List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+		LinkedList<Integer> list2 = new LinkedList<>();
+		f(root, list2, targetSum);
 		return list1;
 	}
 
-	public void f(String s, LinkedList<String> list, int i, int len) {
-		if (i == len) {
-			list1.add(new ArrayList<>(list));
-			return;
-		}
-		for (int j = 1; j <=len; j++) {
-			int endIndex = i + j;
-			if (endIndex > len)
-				break;
-			if (isHuiWen(c, i, endIndex - 1)) {
-				list.add(s.substring(i, endIndex));
-				f(s, list, endIndex, len);
+	public static void f(TreeNode root, LinkedList<Integer> list, int sum) {
+		if (root != null) {
+			if (sum - root.val == 0) {
+				if ((root.left == null) && (root.right == null)) {
+					list.add(root.val);
+					list1.add(new ArrayList<>(list));
+					list.removeLast();
+				} else {
+					list.add(root.val);
+					f(root.left, list, sum - root.val);
+					f(root.right, list, sum - root.val);
+					list.removeLast();
+				}
+			} else {
+				list.add(root.val);
+				f(root.left, list, sum - root.val);
+				f(root.right, list, sum - root.val);
 				list.removeLast();
 			}
 		}
 	}
-
-	public boolean isHuiWen(char c[], int start, int end) {
-		while (start < end) {
-			if (c[start] != c[end]) {
-				return false;
-			}
-			start++;
-			end--;
-		}
-		return true;
-	}
-
 }

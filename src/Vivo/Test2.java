@@ -56,7 +56,6 @@ public class Test2 {
 						}
 					}
 					System.out.println(s1.toString());
-					
 					return;
 				} else {
 					System.out.println("false");

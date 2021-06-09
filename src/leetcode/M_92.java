@@ -19,44 +19,58 @@ import leetcode_tree.TreeNode;
  *
  */
 public class M_92 {
+	public static void main(String[] args) {
+		ListNode create = ListNode.create(5);
+		M_92 m = new M_92();
+		ListNode reverseBetween = m.reverseBetween(create, 3, 5);
+		ListNode.print(reverseBetween);
+	}
+
 	public ListNode reverseBetween(ListNode head, int m, int n) {
-		if (head == null)
-			return head;
 		if (m == n)
 			return head;
-		ListNode pre = null, next = null, p = head;
-		ListNode ph = null, phpre = null, pt = null, pttail = null;
+		ListNode pre = null, pmpre = null, pm = null, pn = null, pt = null;
+		ListNode next;
+		ListNode p = head;
 		int i = 1;
 		while (p != null) {
 			next = p.next;
-			if (i == m - 1)
-				phpre = p;
-			if (i == m)
-				ph = p;
-			if (i == n)
+			if (i == m - 1) {
+				pmpre = p;
+			}
+			if (i == m) {
+				pm = p;
+			}
+			if (i == n) {
+				pn = p;
+			}
+			if (i == n + 1) {
 				pt = p;
-			if (i == n + 1)
-				pttail = p;
-			if (i >= m && i <= n) {
+			}
+			if (i >= m & i <= n) {
 				p.next = pre;
 			}
 			pre = p;
 			p = next;
 			i++;
 		}
-		if (phpre == null && pttail == null) {
-			return pt;
-		} else if (phpre != null && pttail != null) {
-			phpre.next = pt;
-			ph.next = pttail;
-			return head;
-		} else if (phpre == null) {
-			ph.next = pttail;
-			return pt;
+		if (pmpre == null) {
+			if (pt == null) {
+				return pn;
+			} else {
+				pm.next = pt;
+				return pn;
+			}
 		} else {
-			ph.next = null;
-			phpre.next = pt;
-			return head;
+			if (pt == null) {
+				pmpre.next = pn;
+				pm.next = null;
+				return head;
+			} else {
+				pmpre.next = pn;
+				pm.next = pt;
+				return head;
+			}
 		}
 	}
 }

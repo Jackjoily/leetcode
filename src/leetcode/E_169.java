@@ -18,10 +18,11 @@ public class E_169 {
 		for (int i = 0; i < nums.length; i++) {
 			if (flag == 0) {
 				val = nums[i];
+				flag++;
 			} else {
-				if (nums[i] == val)
+				if (val == nums[i]) {
 					flag++;
-				else {
+				} else {
 					flag--;
 				}
 			}

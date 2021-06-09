@@ -26,18 +26,16 @@ public class M_102 {
 		Queue<TreeNode> q = new ArrayDeque<>();
 		q.add(root);
 		while (!q.isEmpty()) {
-			List<Integer> list1 = new ArrayList<>();
-			for (int i = q.size(); i >0; i--) {
+			List<Integer> l = new ArrayList<>();
+			for (int i = q.size(); i > 0; i--) {
 				root = q.poll();
-				list1.add(root.val);
-				if (root.left != null) {
+				l.add(root.val);
+				if (root.left != null)
 					q.add(root.left);
-				}
-				if (root.right != null) {
+				if (root.right != null)
 					q.add(root.right);
-				}
 			}
-			list.add(list1);
+			list.add(l);
 		}
 		return list;
 	}

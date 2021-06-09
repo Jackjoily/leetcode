@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 
 import leetcode_tree.TreeNode;
@@ -22,7 +23,37 @@ public class M_236 {
 	public static void main(String[] args) {
 		Integer a[] = { 3, 5, 1, 6, 2, 0, 8, null, null, 7, 4 };
 		TreeNode t = TreeUtils.createBinaryTreeByArray(a);
-		System.out.println(lowestCommonAncestor(t, t.right.left, t.right.right));
+		TreeNode n = new TreeNode(2);
+		n.right = new TreeNode(1);
+		System.out.println(lowestCommonAncestor1(n, n, n.right));
+	}
+
+	static Map<Integer, TreeNode> map = new HashMap<>();
+	static Set<Integer> seen = new HashSet<>();
+
+	public static void dfs(TreeNode root) {
+		if (root.left != null) {
+			map.put(root.left.val, root);
+			dfs(root.left);
+		}
+		if (root.right != null) {
+			map.put(root.right.val, root);
+			dfs(root.right);
+		}
+	}
+
+	public static TreeNode lowestCommonAncestor1(TreeNode root, TreeNode p, TreeNode q) {
+		dfs(root);
+		while (p != null) {
+			seen.add(p.val);
+			p = map.get(p.val);
+		}
+		while (q != null) {
+			if (seen.contains(q.val))
+				return q;
+			q = map.get(q.val);
+		}
+		return null;
 	}
 
 	public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {

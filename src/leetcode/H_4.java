@@ -12,9 +12,9 @@ import java.util.HashMap;
 public class H_4 {
 
 	public static void main(String[] args) {
-		int a[] = { 1, 2 };
-		int b[] = { 3, 4 };
-		System.out.println(findMedianSortedArrays(a, b));
+		int a[] = { 1, 3 };
+		int b[] = { 2 };
+		System.out.println(getKth(a, 0, a.length - 1, b, 0, b.length - 1, 8));
 	}
 
 	public static double findMedianSortedArrays(int[] a, int[] b) {
@@ -22,31 +22,30 @@ public class H_4 {
 		int m = b.length;
 		int left = (n + m + 1) / 2;
 		int right = (n + m + 2) / 2;
-		int minK = getMinK(a, 0, n - 1, b, 0, m - 1, left);
-		System.out.println(minK);
-		int minK2 = getMinK(a, 0, n - 1, b, 0, m - 1, right);
-		System.out.println(minK2);
-		return (minK + minK2) * 0.5;
+		return (getKth(a, 0, n - 1, b, 0, m - 1, left) + getKth(a, 0, n - 1, b, 0, m - 1, right)) * 0.5;
 	}
 
-	public static int getMinK(int a[], int as, int ae, int b[], int bs, int be, int k) {
-		int len1 = ae - as + 1;
-		int len2 = be - bs + 1;
-		if (len1 > len2) {
-			return getMinK(b, bs, be, a, as, ae, k);
+	public static int getKth(int a[], int as, int ah, int b[], int bs, int bh, int k) {
+
+		int alen = ah - as + 1;
+		int blen = bh - bs + 1;
+		// 让 len1 的长度小于 len2，这样就能保证如果有数组空了，一定是 len1
+		if (alen > blen)
+			return getKth(b, bs, bh, a, as, ah, k);
+		if (alen <= 0) {
+			return b[bs + k - 1];
+		}
+		if (k == 1) {
+			return a[as] < b[bs] ? a[as] : b[bs];
+		}
+		int len = k / 2;
+		int ainx = len >= alen ? ah : (as + len - 1);
+		int binx = len >= blen ? bh : (bs + len - 1);
+
+		if (a[ainx] > b[binx]) {
+			return getKth(a, as, ah, b, binx + 1, bh, k - (binx - bs + 1));
 		} else {
-			if (len1 == 0)
-				return b[bs + k - 1];
-			if (k == 1)
-				return Math.min(b[bs], a[as]);
-			int i = as + Math.min(len1, k / 2) - 1;
-			int j = bs + Math.min(len2, k / 2) - 1;
-			if (a[i] < b[j]) {
-				return getMinK(a, i + 1, ae, b, bs, be, k - (i - as + 1));
-			} else {
-				return getMinK(a, as, ae, b, j + 1, be, k - (j - bs + 1));
-			}
+			return getKth(a, ainx + 1, ah, b, bs, bh, k - (ainx - as + 1));
 		}
 	}
-
 }

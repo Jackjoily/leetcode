@@ -7,6 +7,8 @@ import java.util.Map;
 
 import leetcode_list.ListNode;
 import leetcode_tree.TreeNode;
+import leetcode_tree.TreeUtils;
+import sun.nio.cs.ext.ISCII91;
 
 /**
  * 
@@ -21,108 +23,28 @@ public class M_98 {
 		TreeNode n3 = new TreeNode(3);
 		TreeNode n4 = new TreeNode(4);
 		TreeNode n5 = new TreeNode(5);
-		n3.left = n2;
 		n2.left = n1;
-		n3.right = n5;
-		n5.left = n4;
-		Info process = m.process(n3);
-		System.out.println(process);
-	}
-
-	public static class Info {
-		boolean flag;
-		int max;
-		int min;
-
-		public Info(boolean flag) {
-			this.flag = flag;
-		}
-
-		public Info() {
-		}
-
-		public boolean isFlag() {
-			return flag;
-		}
-
-		public void setFlag(boolean flag) {
-			this.flag = flag;
-		}
-
-		public int getMax() {
-			return max;
-		}
-
-		public void setMax(int max) {
-			this.max = max;
-		}
-
-		public int getMin() {
-			return min;
-		}
-
-		public void setMin(int min) {
-			this.min = min;
-		}
-
-		@Override
-		public String toString() {
-			return "Info [flag=" + flag + ", max=" + max + ", min=" + min + "]";
-		}
-
+		n2.right = n3;
+		// n3.left = n2;
+		// n2.left = n1;
+		// n3.right = n5;
+		// n5.left = n4;
+		TreeNode createTree = TreeUtils.createTree(7);
+		System.out.println(m.isValidBST(n2));
 	}
 
 	public boolean isValidBST(TreeNode root) {
-		return process(root).flag;
-	}
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
 
-	public Info process(TreeNode root) {
-		if (root == null) {
-			return null;
-		}
-		Info info = new Info();
-		info.max = root.val;
-		info.min = root.val;
-		Info left = process(root.left);
-		Info right = process(root.right);
-		if (left == null && right == null) {
-			info.setFlag(true);
-			return info;
-		} else if (left == null || right == null) {
-			if (left == null) {
-				if (right.min > root.val) {
-					info.flag = true;
-					info.max = right.max;
-					return info;
-				} else {
-					info.flag = false;
-					return info;
-				}
-			} else {
-				if (left.max < root.val) {
-					info.flag = true;
-					info.min = left.min;
-					return info;
-				} else {
-					info.flag = false;
-					return info;
-				}
-			}
-		} else {
-			if (left.flag && right.flag) {
-				if (left.max < root.val && right.min > root.val) {
-					info.flag = true;
-					info.max = right.max;
-					info.min = left.min;
-					return info;
-				} else {
-					info.flag = false;
-					return info;
-				}
-			} else {
-				info.setFlag(false);
-				return info;
-			}
-		}
-	}
-}
+    public boolean isValidBST(TreeNode node, long lower, long upper) {
+        if (node == null) {
+            return true;
+        }
+        if (node.val <= lower || node.val >= upper) {
+            return false;
+        }
+        return isValidBST(node.left, lower, node.val) && isValidBST(node.right, node.val, upper);
+    }
+    }
+

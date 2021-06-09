@@ -18,7 +18,7 @@ public class H_25 {
 	}
 
 	public static ListNode reverseKGroup(ListNode head, int k) {
-		if (head.next == null)
+		if (head == null)
 			return head;
 		ListNode dummy = new ListNode(1000);
 		dummy.next = head;
@@ -28,17 +28,16 @@ public class H_25 {
 			for (int i = 0; i < k && end != null; i++) {
 				end = end.next;
 			}
-			if (end == null)
-				break;
-			ListNode start = pre.next;
-			ListNode next = end.next;
+			if(end==null)break;
+			ListNode start=pre.next;
+			ListNode next=end.next;
 			end.next = null;
-			pre.next = reverse(start);
-			start.next = next;
-			pre = start;
-			end = pre;
+			pre.next=reverse(start);
+			start.next=next;
+			pre=start;
+			end=pre;
 		}
-		return dummy.next;
+		 return dummy.next;
 	}
 
 	public static ListNode reverse(ListNode head) {

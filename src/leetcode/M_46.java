@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 import javafx.scene.shape.Line;
 import leetcode_list.ListNode;
@@ -22,32 +23,51 @@ import leetcode_tree.TreeNode;
 public class M_46 {
 	public static void main(String[] args) {
 		int a[] = { 1, 2, 3 };
-		LinkedList<Integer> list = new LinkedList<>();
-		boolean flag[] = new boolean[a.length];
+		f1(a, 0, 3);
 	}
 
-	List<List<Integer>> list1 = new ArrayList<>();
+	static List<List<Integer>> list = new ArrayList<>();
+	static boolean[] used;
 
-	public List<List<Integer>> permute(int[] nums) {
-		boolean flag[] = new boolean[nums.length];
-		LinkedList<Integer> list = new LinkedList<>();
-		f(nums, list, flag);
-		return list1;
+	public static List<List<Integer>> permute(int[] nums) {
+		used = new boolean[nums.length];
+		LinkedList<Integer> list1 = new LinkedList<>();
+		f(nums, nums.length, used, list1);
+		return null;
 	}
 
-	public void f(int[] a, LinkedList<Integer> list, boolean flag[]) {
-		if (a.length == list.size()) {
-			list1.add(new ArrayList<>(list));
+	public static void f1(int a[], int index, int n) {
+		if (index == n) {
+			System.out.println(Arrays.toString(a));
 			return;
 		}
-		for (int i = 0; i < a.length; i++) {
-			if (!flag[i]) {
-				list.add(a[i]);
-				flag[i] = true;
-				f(a, list, flag);
-				flag[i] = false;
-				list.removeLast();
+		for (int i = index; i < n; i++) {
+			swap(a, i, index);
+			f1(a, index + 1, n);
+			swap(a, i, index);
+		}
+
+	}
+
+	public static void swap(int a[], int i, int j) {
+		int temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+	}
+
+	public static void f(int a[], int n, boolean used[], LinkedList<Integer> list1) {
+		if (list1.size() == n) {
+			System.out.println(list1);
+		}
+		for (int i = 0; i < n; i++) {
+			if (!used[i]) {
+				list1.add(a[i]);
+				used[i] = true;
+				f(a, n, used, list1);
+				used[i] = false;
+				list1.removeLast();
 			}
 		}
 	}
+
 }

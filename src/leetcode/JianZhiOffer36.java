@@ -18,15 +18,18 @@ import basic.Node;
  */
 public class JianZhiOffer36 {
 	public static void main(String[] args) {
-		Node createTree = Node.createTree(7);
-		treeToDoublyList(createTree);
+		JianZhiOffer36 j = new JianZhiOffer36();
+		Node createTree = Node.createTree(5);
+		Node treeToDoublyList = j.treeToDoublyList(createTree);
+		Node.print(treeToDoublyList);
 	}
 
-	public static Node treeToDoublyList(Node root) {
+	public Node treeToDoublyList(Node root) {
 		if (root == null)
-			return null;
-		Node head = null;
-		Node pre = null;
+			return root;
+		Node pre = new Node(-1);
+		Node head = pre;
+		Node tail = null;
 		Stack<Node> s = new Stack<>();
 		while (!s.isEmpty() || root != null) {
 			if (root != null) {
@@ -34,25 +37,17 @@ public class JianZhiOffer36 {
 				root = root.left;
 			} else {
 				root = s.pop();
-				System.out.println(root.val);
-				if (pre != null) {
-					pre.right = root;
-					root.left = pre;
-					pre = root;
-				} else {
-					head = root;
-					pre = root;
-				}
-				if (root.right != null) {
-					root = root.right;
-				} else {
-					root = null;
-				}
+				tail = root;
+				pre.right = root;
+				root.left = pre;
+				pre=root;
+				root = root.right;
 			}
 		}
-		head.left = pre;
-		pre.right = head;
-		return head;
+		tail.right = head.right;
+		head.right.left = tail;
+		Node node = head.right;
+		head.left = null;
+		return node;
 	}
-
 }

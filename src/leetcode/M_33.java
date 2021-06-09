@@ -15,9 +15,8 @@ import leetcode_list.ListNode;
 public class M_33 {
 
 	public static void main(String[] args) {
-		int a[] = { 4, 5, 6, 7, 0, 1, 2 };
-		System.out.println(search(a, 0));
-
+		int a[] = { 5 ,1,3};
+		System.out.println(search(a, 5));
 	}
 
 	public static int search(int[] nums, int target) {

@@ -21,14 +21,12 @@ import leetcode_tree.TreeNode;
 public class M_200 {
 	public static void main(String[] args) {
 		M_200 m = new M_200();
-		char a[][] = {
-				  {'1','1','0','0','0'},
-				  {'1','1','0','0','0'},
-				  {'0','0','1','0','0'},
-				  {'0','0','0','1','1'}
-				}
+		char a[][] = { { '1', '1', '0', '0', '0' }, 
+				{ '1', '1', '0', '0', '0' },
+				{ '0', '0', '1', '0', '0' },
+				{ '0', '0', '0', '1', '1' } }
 
-;
+		;
 		System.out.println(m.numIslands(a));
 	}
 
@@ -43,28 +41,25 @@ public class M_200 {
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
 				if (!used[i][j] && grid[i][j] == '1') {
-					f(grid, i, j, m, n);
+					f(grid, i, j, used, m, n);
 					count++;
 				}
+		
 			}
 		}
 		return count;
 	}
 
-	public void f(char[][] grid, int i, int j, int m, int n) {
-		if (!used[i][j]) {
-			if (grid[i][j] == '1') {
-				used[i][j] = true;
-				for (int k = 0; k < 4; k++) {
-					int newi = i + directions[k][0];
-					int newj = j + directions[k][1];
-					if (newi >= 0 && newj >= 0 && newi < m && newj < n) {
-						f(grid, newi, newj, m, n);
-					}
+	public void f(char[][] c, int i, int j, boolean used[][], int m, int n) {
+		if (!used[i][j] && c[i][j] == '1') {
+			used[i][j] = true;
+			for (int a[] : directions) {
+				int newi = a[0] + i;
+				int newj = a[1] + j;
+				if (newi >= 0 && newi < m && newj >= 0 && newj < n) {
+					f(c, newi, newj, used, m, n);
 				}
 			}
 		}
-
 	}
-
 }

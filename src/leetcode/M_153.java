@@ -20,30 +20,24 @@ import leetcode_tree.TreeNode;
  */
 public class M_153 {
 	public static void main(String[] args) {
-		int a[] = { 3,1,2 };
+		int a[] = { 4, 5, 6, 7, 8, 9, 1, 2, 3 };
 		System.out.println(findMin(a));
 	}
 
 	public static int findMin(int[] nums) {
 		int low = 0;
 		int high = nums.length - 1;
-		if (nums[high] >= nums[low]) {
-			return nums[low];
-		}
+		int l = Integer.MAX_VALUE;
 		while (low <= high) {
 			int mid = (high + low) / 2;
-			if (nums[mid] > nums[mid + 1]) {
-				return nums[mid + 1];
-			}
-			if (nums[mid - 1] > nums[mid]) {
-				return nums[mid ];
-			}
-			if (nums[mid] > nums[0]) {
-				low = mid + 1;
-			} else {
+			if (nums[mid] <= nums[high]) {
+				l = Math.min(l, nums[mid]);
 				high = mid - 1;
+			} else {
+				l = Math.min(l, nums[high]);
+				low = mid + 1;
 			}
 		}
-		return nums[low];
+		return l;
 	}
 }

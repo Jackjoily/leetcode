@@ -17,50 +17,55 @@ import java.util.Set;
 public class H_127 {
 	public static void main(String[] args) {
 		H_127 h = new H_127();
-		List<String> asList = Arrays.asList("hot","dog");
-		System.out.println(h.ladderLength("hot", "dog", asList));
+		List<String> asList = Arrays.asList("ymann","yycrj","oecij","ymcnj","yzcrj","yycij","xecij","yecij","ymanj","yzcnj","ymain");
+		System.out.println(h.ladderLength("ymain", "oecij", asList));
 	}
 
-	public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-		if (!wordList.contains(endWord))
-			return 0;
-		Set<String> set = new HashSet<>();
-		Set<String> visitd = new HashSet<>();
-		set.addAll(wordList);
-		ArrayDeque<String> q = new ArrayDeque<>();
-		q.add(beginWord);
-		visitd.add(beginWord);
+	static Set<String> wordSet;
+	static Set<String> visited;
+	static Queue<String> q;
+
+	public static int ladderLength(String beginWord, String endWord, List<String> wordList) {
 		int count = 1;
-		while (q.size() != 0) {
+		if (beginWord.equals(endWord))
+			return count;
+		wordSet = new HashSet<>(wordList);
+		if (!wordSet.contains(endWord))
+			return 0;
+		q = new ArrayDeque<>();
+		q.add(beginWord);
+		visited = new HashSet<>();
+		visited.add(beginWord);
+		while (!q.isEmpty()) {
 			for (int i = q.size(); i > 0; i--) {
 				String poll = q.poll();
-				if (isOkay(poll, endWord, set, visitd, q)) {
+				if (isOkay(poll, endWord, wordSet, visited)) {
 					return count + 1;
 				}
 			}
 			count++;
 		}
-		return !visitd.contains(endWord)?0:count;
-
+		return visited.contains(endWord) ? count : 0;
 	}
 
-	public boolean isOkay(String word, String endWord, Set<String> set, Set<String> visited, Queue<String> q) {
-		char[] c = word.toCharArray();
+	public static boolean isOkay(String str, String endWord, Set<String> wordSet, Set<String> visited) {
+		char[] c = str.toCharArray();
 		for (int j = 0; j < c.length; j++) {
-			char ch = c[j];
-			for (char i = 'a'; i <= 'z'; i++) {
-				if (ch != i) {
-					c[j] = i;
-					String str = new String(c);
-					if (set.contains(str) && !visited.contains(str)) {
-						if (str.equals(endWord))
-							return true;
-						q.add(str);
-						visited.add(str);
+			char temp = c[j];
+			for (char i = 'a'; i <='z'; i++) {
+				if (c[j] == i)
+					continue;
+				c[j] = i;
+				String s = new String(c);
+				if (!visited.contains(s) && wordSet.contains(s)) {
+					if (endWord.equals(s)) {
+						return true;
 					}
+					q.add(s);
+					visited.add(s);
 				}
 			}
-			c[j] = ch;
+			c[j] = temp;
 		}
 		return false;
 	}

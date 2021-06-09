@@ -23,9 +23,8 @@ import leetcode_tree.TreeNode;
  */
 public class M_322 {
 	public static void main(String[] args) {
-		int a[] = { 186, 419, 83, 408 };
-		LinkedList<Integer> list = new LinkedList<>();
-		System.out.println(coinChange(a, 6249));
+		int a[] = { 1, 2, 5 };
+		System.out.println(coinChange2(a, 11));
 		int b[] = { 2 };
 		coinChange2(b, 3);
 	}
@@ -62,21 +61,16 @@ public class M_322 {
 	 */
 	public static int coinChange2(int[] coins, int amount) {
 		int dp[] = new int[amount + 1];
-		Arrays.sort(coins);
-		Arrays.fill(dp, Integer.MAX_VALUE);
+		int max = amount + 1;
+		Arrays.fill(dp, max);
 		dp[0] = 0;
 		for (int i = 1; i <= amount; i++) {
-			for (int coin : coins) {
-				int leftCoin = i - coin;
-				if (leftCoin < 0)
-					break;
-				if (dp[leftCoin] != Integer.MAX_VALUE) {
-					dp[i] = Math.min(dp[leftCoin] + 1, dp[i]);
+			for (int j = 0; j < coins.length; j++) {
+				if (coins[j] <= i) {
+					dp[i] = Math.min(dp[i - coins[j]] + 1, dp[i]);
 				}
 			}
-
 		}
-		return dp[amount]==Integer.MAX_VALUE?-1:dp[amount];
+		return dp[amount] > amount ? -1 : dp[amount];
 	}
-
 }

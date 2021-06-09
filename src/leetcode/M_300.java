@@ -20,9 +20,8 @@ import leetcode_tree.TreeNode;
  */
 public class M_300 {
 	public static void main(String[] args) {
-
-		int a[] = { 1, 3, 6, 7, 9, 4, 10, 5, 6 };
-		lengthOfLIS(a);
+		int a[] = { 10, 9, 2, 5, 3, 7, 101, 18 };
+		System.out.println(lengthOfLIS(a));
 	}
 
 	public static int lengthOfLIS(int[] nums) {
@@ -30,18 +29,19 @@ public class M_300 {
 		if (n == 1)
 			return 1;
 		int dp[] = new int[n];
-		int max = 1;
 		Arrays.fill(dp, 1);
-		for (int i = 1; i < nums.length; i++) {
+		int max = 1;
+		for (int i = 1; i < n; i++) {
 			int max1 = 0;
-			for (int j = i - 2; j >= 0; j--) {
+			for (int j = i - 1; j >= 0; j--) {
 				if (nums[i] > nums[j]) {
 					max1 = Math.max(max1, dp[j]);
 				}
 			}
 			dp[i] += max1;
-			max = Math.max(dp[i], max);
+			max = Math.max(max, dp[i]);
 		}
+		
 		return max;
 	}
 }

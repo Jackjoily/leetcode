@@ -20,33 +20,47 @@ import leetcode_tree.TreeNode;
  */
 public class M_56 {
 	public static void main(String[] args) {
-		int a[][] = { { 1, 4 }, { 4, 5 } };
+		int a[][] = { {1,3},{2,6},{8,10},{15,18}};
 		merge(a);
 	}
 
 	public static int[][] merge(int[][] intervals) {
-		Arrays.sort(intervals, (x, y) -> x[0] - y[0]);
-		boolean flag[] = new boolean[intervals.length];
-		int count = 0;
-		for (int i = 0; i + 1 < intervals.length; i++) {
-			if (intervals[i][1] >= intervals[i + 1][0]) {
-				if (intervals[i][1] <= intervals[i + 1][1]) {
-					intervals[i + 1][0] = intervals[i][0];
-				} else {
-					intervals[i + 1][0] = intervals[i][0];
-					intervals[i + 1][1] = intervals[i][1];
-				}
-				flag[i] = true;
+		Arrays.sort(intervals, (x, y) -> {
+			if (x[0] != y[0]) {
+				return x[0] - y[0];
 			} else {
-				count++;
+				return y[1] - x[1];
+			}
+		});
+		int n = intervals.length;
+		boolean used[] = new boolean[n];
+		int count = n;
+		for (int i = 0; i < n; i++) {
+			if (!used[i]) {
+				for (int j = i + 1; j < n; j++) {
+					if (!used[j]) {
+						if (intervals[j][0] <= intervals[i][1] && intervals[i][1] >= intervals[j][1]) {
+							used[j] = true;
+							count--;
+						} else if (intervals[j][0] <= intervals[i][1] && intervals[i][1] < intervals[j][1]) {
+							used[j] = true;
+							count--;
+							intervals[i][1] = intervals[j][1];
+						} else if (intervals[j][0] > intervals[i][1]) {
+							break;
+						}
+					}
+				}
 			}
 		}
-		int a[][] = new int[2][];
-		for (int i = 0; i < intervals.length; i++) {
-			if (!flag[i]) {
-				a[i] = intervals[i];
+		int a[][] = new int[count][];
+		int inx = 0;
+		for (int i = 0; i < n; i++) {
+			if (!used[i]) {
+				a[inx++] = intervals[i];
 			}
 		}
+		System.out.println(Arrays.deepToString(a));
 		return a;
 	}
 }

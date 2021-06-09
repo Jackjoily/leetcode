@@ -15,52 +15,33 @@ import java.util.Set;
  */
 public class M_39 {
 	public static void main(String[] args) {
-		int a[] = { 2, 3, 5 };
-		// combinationSum(a, 8);
+		int a[] = { 2, 3, 6, 7 };
 		LinkedList<Integer> list = new LinkedList<>();
-		f1(a, 8, 0, list);
+		f(a, 0, list, 4, 7);
 	}
 
-	static Set<List<Integer>> set = new HashSet<>();
+	static List<List<Integer>> list1 = new ArrayList<>();
 
-
-	public static void f(int a[], int target, int sum, LinkedList<Integer> list) {
-		if (sum == target) {
-			System.out.println(list);
-			return;
-		}
-		for (int i = 0; i < a.length; i++) {
-			sum += a[i];
-			if (sum > target) {
-				sum -= a[i];
-				break;
-			}
-			list.add(a[i]);
-			f(a, target, sum, list);
-			sum -= a[i];
-			list.removeLast();
-		}
-	}
-	static List<List<Integer>> list2 = new ArrayList<>();
-
-	public static List<List<Integer>> combinationSum(int[] candidates, int target) {
-		LinkedList<Integer> list = new LinkedList<>();
+	public List<List<Integer>> combinationSum(int[] candidates, int target) {
+		int n = candidates.length;
+		if (n == 0)
+			return list1;
 		Arrays.sort(candidates);
-		f1(candidates, target, 0, list);
-		return null;
+		LinkedList<Integer> list = new LinkedList<>();
+		f(candidates, 0, list, n, target);
+		return list1;
 	}
-	public  static void f1(int a[], int target, int begin, LinkedList<Integer> list) {
-		if (target == 0) {
-			list2.add(new ArrayList<>(list));
+
+	public static void f(int a[], int inx, LinkedList<Integer> list, int n, int sum) {
+		if (sum == 0) {
+			list1.add(new ArrayList<>(list));
 			return;
 		}
-		if (target < 0)
-			return;
-		for (int i = begin; i < a.length; i++) {
-			if (target - a[i] < 0)
+		for (int i = inx; i < n; i++) {
+			if (sum - a[i] < 0)
 				break;
 			list.add(a[i]);
-			f1(a, target - a[i], i, list);
+			f(a, i, list, n, sum - a[i]);
 			list.removeLast();
 		}
 	}

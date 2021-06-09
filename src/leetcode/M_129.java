@@ -29,8 +29,6 @@ public class M_129 {
 	}
 
 	public int sumNumbers(TreeNode root) {
-		if (root == null)
-			return 0;
 		f(root, 0);
 		return sum;
 	}
@@ -41,7 +39,6 @@ public class M_129 {
 		if (root != null) {
 			if (root.left == null && root.right == null) {
 				sum += val * 10 + root.val;
-				return;
 			} else {
 				f(root.left, val * 10 + root.val);
 				f(root.right, val * 10 + root.val);

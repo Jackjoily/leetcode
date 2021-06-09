@@ -14,26 +14,24 @@ import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 public class H_41 {
 	public int firstMissingPositive1(int[] nums) {
 		int n = nums.length;
-		if (n == 0) {
+		if (n == 0)
 			return 1;
-		}
 		for (int i = 0; i < n; i++) {
-			if (nums[i] <= 0) {
+			if (nums[i] < 0) {
 				nums[i] = n + 1;
 			}
 		}
 		for (int i = 0; i < n; i++) {
-			int num = Math.abs(nums[i]);
-			if (num<= n) {
-				nums[num - 1] = -Math.abs(nums[num - 1]);
+			if (nums[i] < n) {
+				nums[nums[i] - 1] = -Math.abs(nums[nums[i] - 1]);
 			}
 		}
 		for (int i = 0; i < n; i++) {
 			if (nums[i] > 0) {
-				return i;
+				return i + 1;
 			}
 		}
-		return n + 1;
+		return n;
 	}
 
 	public int firstMissingPositive(int[] nums) {

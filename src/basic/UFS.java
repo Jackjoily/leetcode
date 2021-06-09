@@ -11,6 +11,7 @@ public class UFS {
 		}
 	}
 
+	// 查找x的祖先
 	public static int find(int x) {
 		if (x == a[x])
 			return a[x];
@@ -20,6 +21,7 @@ public class UFS {
 		}
 	}
 
+	// 合并 x和y
 	public static void union(int x, int y) {
 		int fa_x = find(x);
 		int fa_y = find(y);
@@ -55,11 +57,12 @@ class UnionFind {
 
 	public int find(int i) {
 		if (parent[i] != i)
-			//路径压缩策略
+			// 路径压缩策略
 			parent[i] = find(parent[i]);
 		return parent[i];
 	}
 
+	// 合并操作
 	public void union(int x, int y) {
 		int rootx = find(x);
 		int rooty = find(y);

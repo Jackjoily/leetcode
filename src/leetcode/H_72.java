@@ -28,29 +28,25 @@ public class H_72 {
 	public static int minDistance(String word1, String word2) {
 		int m = word1.length();
 		int n = word2.length();
-		if (m == 0 || n == 0) {
+		if (m * n == 0) {
 			return m + n;
 		}
 		int dp[][] = new int[m + 1][n + 1];
-		for (int i = 0; i < m + 1; i++) {
+		for (int i = 0; i <=m; i++) {
 			dp[i][0] = i;
 		}
-		for (int j = 0; j < n + 1; j++) {
+		for (int j = 0; j <=n; j++) {
 			dp[0][j] = j;
 		}
-		for (int i = 1; i < m + 1; i++) {
-			for (int j = 1; j < n + 1; j++) {
-				//这中情况对应的是word1中前i个到word2中前j个字符的最短编辑距离就是，
-			   // 就是word1中前的i-1个到word2前j个字符的最短编辑距离，然后在末尾插上一个字符
-				int left = dp[i - 1][j] + 1;
-				//
-				int right = dp[i][j - 1] + 1;
-				//
+		for (int i = 1; i <= m; i++) {
+			for (int j = 1; j <= n; j++) {
+				int left = dp[i - 1][j]+1;
+				int right = dp[i][j - 1]+1;
 				int left_right = dp[i - 1][j - 1];
 				if (word1.charAt(i - 1) != word2.charAt(j - 1)) {
 					left_right += 1;
 				}
-				dp[i][j] = Math.min(left, Math.min(left_right, right));
+				dp[i][j] = Math.min(Math.min(left, right), left_right);
 			}
 		}
 		return dp[m][n];

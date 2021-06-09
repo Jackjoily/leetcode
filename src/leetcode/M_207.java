@@ -2,16 +2,10 @@ package leetcode;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Stack;
-
-import leetcode_tree.TreeNode;
-import leetcode_tree.TreeUtils;
 
 /**
  * 
@@ -21,40 +15,76 @@ import leetcode_tree.TreeUtils;
  *
  */
 public class M_207 {
+	public static void main(String[] args) {
+		int a[][] = { { 0,1 } };
+		System.out.println(canFinish(2, a));
+	}
 
-	List<List<Integer>> list;
-	int visied[];
-	boolean flag = true;
+	static List<List<Integer>> edges;
+	static int indegs[];
+	static int visited[];
+	static boolean flag = true;
 
-	public boolean canFinish(int numCourses, int[][] prerequisites) {
-		int n = prerequisites.length;
-		visied = new int[numCourses];
+	public static boolean canFinish1(int numCourses, int[][] prerequisites) {
+		edges = new ArrayList<>();
+		indegs = new int[numCourses];
 		for (int i = 0; i < numCourses; i++) {
-			list.add(new ArrayList<>());
+			edges.add(new ArrayList<>());
 		}
-		for (int i = 0; i < n; i++) {
-			list.get(prerequisites[i][0]).add(prerequisites[i][1]);
+		for (int i = 0; i < prerequisites.length; i++) {
+			edges.get(prerequisites[i][1]).add(prerequisites[i][0]);
+			indegs[prerequisites[i][0]]++;
 		}
+		Queue<Integer> q = new ArrayDeque<>();
 		for (int i = 0; i < numCourses; i++) {
-			if (visied[i] == 0) {
+			if (indegs[i] == 0) {
+				q.add(i);
+			}
+		}
+		int cnt = 0;
+		while (!q.isEmpty()) {
+			int m = q.poll();
+			cnt++;
+			for (int n : edges.get(m)) {
+				indegs[n]--;
+				if (indegs[n] == 0) {
+					q.add(n);
+				}
+			}
+		}
+		return cnt==numCourses;
+	}
+
+	public static boolean canFinish(int numCourses, int[][] prerequisites) {
+		edges = new ArrayList<>();
+		visited = new int[numCourses];
+		for (int i = 0; i < numCourses; i++) {
+			edges.add(new ArrayList<>());
+		}
+		for (int i = 0; i < prerequisites.length; i++) {
+			edges.get(prerequisites[i][1]).add(prerequisites[i][0]);
+		}
+		for (int i = 0; i < numCourses && flag; i++) {
+			if (visited[i] == 0) {
 				dfs(i);
 			}
 		}
 		return flag;
 	}
 
-	public void dfs(int u) {
-		visied[u] = 1;
-		for (int k : list.get(u)) {
-			if (visied[k] == 0) {
-				dfs(k);
-				if (!flag)
+	private static void dfs(int i) {
+		visited[i] = 1;
+		for (int n : edges.get(i)) {
+			if (visited[n] == 0) {
+				dfs(n);
+				if (!flag) {
 					return;
-			} else if (visied[k] == 1) {
+				}
+			} else if (visited[n] == 1) {
 				flag = false;
 				return;
 			}
 		}
-		visied[u] = 2;
+		visited[i] = 2;
 	}
 }

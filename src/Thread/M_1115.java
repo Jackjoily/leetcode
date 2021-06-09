@@ -1,8 +1,46 @@
 package Thread;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 
 public class M_1115 {
+
+}
+
+class FooBar1 {
+	private int n;
+
+	public FooBar1(int n) {
+	        this.n = n;
+	    }
+
+	CyclicBarrier cb = new CyclicBarrier(2);
+	volatile boolean fin = true;
+
+	public void foo(Runnable printFoo) throws InterruptedException {
+		for (int i = 0; i < n; i++) {
+			while (!fin)
+				;
+			printFoo.run();
+			fin = false;
+			try {
+				cb.await();
+			} catch (BrokenBarrierException e) {
+			}
+		}
+	}
+
+	public void bar(Runnable printBar) throws InterruptedException {
+		for (int i = 0; i < n; i++) {
+			try {
+				cb.await();
+			} catch (BrokenBarrierException e) {
+			}
+			printBar.run();
+			fin = true;
+		}
+	}
 
 }
 

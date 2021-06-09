@@ -22,7 +22,14 @@ public class Node {
 		val = _val;
 		children = _children;
 	}
-	
+
+	public static void print(Node node) {
+		 while(node!=null) {
+ System.out.println(node.val);
+			 node=node.left;
+		 }
+	}
+
 	public static Node createTree(int n) {
 		Node[] t = new Node[n];
 		for (int i = 0; i < n; i++) {

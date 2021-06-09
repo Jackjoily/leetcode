@@ -20,32 +20,34 @@ import leetcode_tree.TreeNode;
  */
 public class M_31 {
 	public static void main(String[] args) {
-		int a[] = {1,2};
+		int a[] = { 3,2,1};
 		nextPermutation(a);
 		System.out.println(Arrays.toString(a));
 	}
 
 	public static void nextPermutation(int[] nums) {
+		int len = nums.length;
 		boolean flag = true;
-		int i = nums.length-1;
-		for (; i >=1; i--) {
-			if (nums[i] > nums[i-1]) {
+		int i = len - 1;
+		for (; i >= 1; i--) {
+			if (nums[i] > nums[i - 1]) {
 				flag = false;
+				i--;
 				break;
 			}
 		}
 		if (flag) {
 			Arrays.sort(nums);
-		} else {
-			for (int j = nums.length - 1; j >= i; j--) {
-				if (nums[j] > nums[i-1]) {
-					int temp = nums[j];
-					nums[j] = nums[i-1];
-					nums[i-1] = temp;
-					break;
-				}
-			}
-			Arrays.sort(nums, i, nums.length);
+			return;
 		}
+		for (int j = nums.length - 1; j >= i; j--) {
+			if (nums[j] > nums[i]) {
+				int temp = nums[j];
+				nums[j] = nums[i];
+				nums[i] = temp;
+				break;
+			}
+		}
+		Arrays.sort(nums,i+1,nums.length);
 	}
 }

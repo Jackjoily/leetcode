@@ -28,46 +28,35 @@ public class M_54 {
 		List<Integer> list = new ArrayList<>();
 		int m = matrix.length;
 		int n = matrix[0].length;
-		int left = 0;
-		int right = n - 1;
-		int up = 0;
-		int down = m - 1;
-		int i = 0;
-		int count = 0;
+		int left = 0, right = n - 1;
+		int down = m - 1, up = 0;
 		while (true) {
-
-			while (i <= right) {
+			for (int i = left; i <= right; i++) {
 				list.add(matrix[up][i]);
-				i++;
 			}
 			up++;
 			if (up > down)
 				break;
-			i = up;
-			while (i <= down) {
+			for (int i = up; i <= down; i++) {
 				list.add(matrix[i][right]);
-				i++;
 			}
 			right--;
-			if (right <left)
+			if (left > right)
 				break;
-			i = right;
-			while (i >= left) {
+
+			for (int i = right; i >= left; i--) {
 				list.add(matrix[down][i]);
-				i--;
 			}
 			down--;
-			if (down < up)
+			if (up > down)
 				break;
-			i = down;
-			while (i >= up) {
+
+			for (int i = down; i >= up; i--) {
 				list.add(matrix[i][left]);
-				i--;
 			}
 			left++;
 			if (left > right)
 				break;
-			i = left;
 		}
 		return list;
 	}
