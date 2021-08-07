@@ -2,6 +2,7 @@ package Vivo;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,37 +22,36 @@ import java.util.Queue;
 public class Test1 {
 
 	public static void main(String[] args) {
-		System.out.println(compileSeq("5,0,4,4,5,-1"));
-
+		System.out.println(compileSeq("1,2,-1,1"));
 	}
 
 	public static String compileSeq(String input) {
-		String[] str = input.split(",");
-		int n = str.length;
-		boolean used[] = new boolean[n];
-		StringBuilder sb = new StringBuilder();
-		PriorityQueue<Integer> q = new PriorityQueue<>();
+		String[] split = input.split(",");
+		int n = split.length;
+		int indeges[] = new int[n];
+		List<List<Integer>> list = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
-			if (Integer.valueOf(str[i]) == -1) {
-				used[i] = true;
-				q.add(i);
+			list.add(new ArrayList<Integer>());
+		}
+		PriorityQueue<Integer> pq = new PriorityQueue<>();
+		for (int i = 0; i < split.length; i++) {
+			Integer valueOf = Integer.valueOf(split[i]);
+			if (valueOf == -1) {
+				pq.add(i);
+			} else {
+				list.get(valueOf).add(i);
+				indeges[i]++;
 			}
 		}
-		while (q.size() != 0) {
-			int l = q.poll();
-			sb.append(l + ",");
-			for (int i = n - 1; i >= 0; i--) {
-				if (!used[i]) {
-					if (Integer.valueOf(str[i]) == l) {
-						used[i] = true;
-						q.add(i);
-					}
+		StringBuilder sb = new StringBuilder();
+		while (!pq.isEmpty()) {
+			int poll = pq.poll();
+			sb.append(poll + ",");
+			for (int num : list.get(poll)) {
+				if (--indeges[num] == 0) {
+					pq.add(num);
 				}
 			}
-		}
-		while (q.size() != 0) {
-			int l = q.poll();
-			sb.append(l + ",");
 		}
 		return sb.deleteCharAt(sb.length() - 1).toString();
 	}

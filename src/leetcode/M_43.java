@@ -21,32 +21,35 @@ import leetcode_tree.TreeNode;
 
 public class M_43 {
 	public static void main(String[] args) {
-		System.out.println(multiply("9", "99"));
+		System.out.println(multiply("123", "456"));
 	}
 
 	public static String multiply(String num1, String num2) {
-		if (num1.equals("0") || num2.equals("0"))
+		if (num1.equals("0") || num2.equals("0")) {
 			return "0";
-		int n = num1.length();
-		int m = num2.length();
-		int c[] = new int[m + n];
-		for (int i = n - 1; i >= 0; i--) {
-			int n1 = num1.charAt(i) - '0';
-			for (int j = m - 1; j >= 0; j--) {
-				int p1 = m+n - 2 - i - j, p2 = p1 + 1;
-				int n2 = num2.charAt(j) - '0';
-				int q = (n1 * n2 + c[p1]);
-				c[p1] = q % 10;
-				c[p2] += q / 10;
+		}
+		char[] n = num1.toCharArray();
+		char[] n1 = num2.toCharArray();
+		int len = n.length + n1.length;
+		int a[] = new int[len];
+		int val = 0;
+		for (int j = n1.length - 1; j >= 0; j--) {
+			int c = n1[j] - '0';
+			for (int i = n.length - 1; i >= 0; i--) {
+				int c1 = n[i] - '0';
+				int p1 = len - 2 - i - j, p2 = p1 + 1;
+				int q = (c1 * c + a[p1]);
+				a[p1] = q % 10;
+				a[p2] += q / 10;
 			}
-
 		}
 		StringBuilder sb = new StringBuilder();
-		for (int i = c.length - 1; i >= 0; i--) {
-			if (sb.length() == 0 && c[i] == 0) {
-				continue;
-			} else {
-				sb.append(c[i]);
+		int i = len - 1;
+		while (i >= 0) {
+			while (i >= 0 && a[i] == 0)
+				i--;
+			while (i >= 0) {
+				sb.append(a[i--]);
 			}
 		}
 		return sb.toString();

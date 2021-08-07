@@ -1,88 +1,191 @@
 package Shopee;
 
-import java.util.Random;
-
 public class Test1 {
 	public static void main(String[] args) {
-	
-	 System.out.println(romanToInt("MCMXCIV"));
+		Test1 t = new Test1();
+		System.out.println(t.romanToInt("DCCCLVIII"));
 	}
 
-	public static int romanToInt(String s) {
+	public int romanToInt(String s) {
 		char[] c = s.toCharArray();
-		int res = 0;
-		for (int i = 0; i < c.length;) {
+		int val = 0;
+		int len = c.length;
+		for (int i = 0; i < len;) {
 			if (c[i] == 'I') {
-				if (i + 1 < c.length) {
+				if (i + 1 < len) {
 					if (c[i + 1] == 'V') {
-						res += 4;
+						val += 4;
 						i += 2;
 					} else if (c[i + 1] == 'X') {
-						res += 9;
+						val += 10;
 						i += 2;
 					} else {
-						res++;
+						val += 1;
 						i++;
 					}
 				} else {
-					res++;
+					val += 1;
 					i++;
-					break;
 				}
-			}
-			else if (c[i] == 'X') {
-				if (i + 1 < c.length) {
+			} else if (c[i] == 'X') {
+				if (i + 1 < len) {
 					if (c[i + 1] == 'L') {
-						res += 40;
+						val += 40;
 						i += 2;
 					} else if (c[i + 1] == 'C') {
-						res += 90;
+						val += 90;
 						i += 2;
 					} else {
-						res += 10;
+						val += 10;
 						i++;
 					}
 				} else {
-					res += 10;
+					val += 10;
 					i++;
-					break;
 				}
-			}
-			else if (c[i] == 'C') {
-				if (i + 1 < c.length) {
+			} else if (c[i] == 'C') {
+				if (i + 1 < len) {
 					if (c[i + 1] == 'D') {
-						res += 400;
+						val += 400;
 						i += 2;
 					} else if (c[i + 1] == 'M') {
-						res += 900;
+						val += 900;
 						i += 2;
 					} else {
-						res += 100;
+						val += 100;
 						i++;
 					}
+
 				} else {
-					res += 100;
+					val += 100;
 					i++;
-					break;
+				}
+			} else {
+				// I X C
+				if (c[i] == 'V') {
+					val += 5;
+					i++;
+				} else if (c[i] == 'L') {
+					val += 50;
+					i++;
+				} else if (c[i] == 'D') {
+					val += 500;
+					i++;
+				} else if (c[i] == 'M') {
+					val += 1000;
+					i++;
 				}
 			}
-			else if (c[i] == 'V') {
-				res += 5;
-				i++;
-			}
-			else if (c[i] == 'L') {
-				res += 50;
-				i++;
-			}
-			else if (c[i] == 'D') {
-				res += 50;
-				i++;
-			}
-			else if (c[i] == 'M') {
-				res +=1000;
-				i++;
-			}
 		}
-		return res;
+		return val;
+	}
+
+	String romanToInt1(String s) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < s.length(); i++) {
+			sb.append(str(s.length() - 1 - i, s.charAt(i) + ""));
+		}
+		return sb.toString();
+	}
+
+	public String str(int i, String str) {
+		if (i == 0)
+			return get(str);
+		if (i == 1)
+			return get1(str);
+		if (i == 2)
+			return get2(str);
+		if (i == 3)
+			return get3(str);
+		return "";
+	}
+
+	// 个位
+	public String get(String str) {
+		int n = Integer.valueOf(str);
+		if (n == 4) {
+			return "IV";
+		}
+		if (n == 9) {
+			return "IX";
+		}
+		if (n == 5)
+			return "V";
+		if (n > 5) {
+			String s = "V";
+			for (int i = 0; i < n - 5; i++) {
+				s += "I";
+			}
+			return s;
+		}
+		String s = "";
+		for (int i = 0; i < n; i++) {
+
+			s += "I";
+
+		}
+		return s;
+	}
+
+	// 10位
+	public String get1(String str) {
+		int n = Integer.valueOf(str);
+		if (n == 4) {
+			return "XL";
+		}
+		if (n == 9) {
+			return "XD";
+		}
+		if (n == 5)
+			return "L";
+		if (n > 5) {
+			String s = "L";
+			for (int i = 0; i < (n - 5); i++) {
+				s += "X";
+			}
+			return s;
+		}
+		String s = "";
+		for (int i = 0; i < n; i++) {
+
+			s += "X";
+
+		}
+		return s;
+	}
+
+	// 100位
+	public String get2(String str) {
+		int n = Integer.valueOf(str);
+		if (n == 4) {
+			return "CD";
+		}
+		if (n == 9) {
+			return "CM";
+		}
+		if (n == 5)
+			return "D";
+		if (n > 5) {
+			String s = "D";
+			for (int i = 0; i < (n - 5); i++) {
+				s += "C";
+			}
+			return s;
+		}
+		String s = "";
+		for (int i = 0; i < n; i++) {
+			s += "C";
+		}
+		return s;
+	}
+
+	// 1000位
+	public String get3(String str) {
+		int n = Integer.valueOf(str);
+		String s = "";
+		for (int i = 0; i < n; i++) {
+			s += "M";
+		}
+		return s;
 	}
 }

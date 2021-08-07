@@ -22,9 +22,9 @@ public class E_141 {
 			return false;
 		ListNode fast = head.next;
 		ListNode slow = head;
-		while (fast != null) {
-			fast = fast.next == null ? null : fast.next.next;
+		while (fast != null && fast.next != null) {
 			slow = slow.next;
+			fast = fast.next.next;
 			if (fast == null)
 				return false;
 			if (fast == slow)

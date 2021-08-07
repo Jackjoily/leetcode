@@ -1,109 +1,70 @@
 package Shopee;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
-
-import jdk.nashorn.internal.runtime.regexp.joni.ScanEnvironment;
 
 public class Test2 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		String str = sc.nextLine();
-		StringBuilder sb = new StringBuilder();
 		if (str.contains("-")) {
-			String[] split = str.split("-");
-			sb.append(get3(split)).append(" ").append(get2(split)).append(" ").append(get(split)).append(" ")
-					.append(str);
-			System.out.println(sb.toString());
+			System.out.println(str(str.split("-")));
 		} else if (str.contains("_")) {
-			String[] split = str.split("_");
-			sb.append(get3(split)).append(" ").append(get2(split)).append(" ").append(str).append(" ")
-					.append(get1(split));
-			System.out.println(sb.toString());
-		} else if (Character.isLowerCase(str.charAt(0))) {
-			List<String> list = new ArrayList<>();
-			int k = 0;
-			for (int i = 0; i < str.length(); i++) {
-				if (Character.isLowerCase(str.charAt(i))) {
-
-				} else {
-					list.add(str.substring(k, i).toLowerCase());
-					k = i;
-				}
-			}
-			list.add(str.substring(k, str.length()).toLowerCase());
-			String[] split = new String[list.size()];
-			for (int i = 0; i < list.size(); i++) {
-				split[i] = list.get(i);
-			}
-			sb.append(get3(split)).append(" ").append(str).append(" ").append(get(split)).append(" ")
-					.append(get1(split)).append(" ");
-			System.out.println(sb.toString());
+			System.out.println(str(str.split("_")));
 		} else {
-			List<String> list = new ArrayList<>();
-			int k = 0;
-			for (int i = 0; i < str.length(); i++) {
-				if (Character.isLowerCase(str.charAt(i))) {
+			System.out.println(str(str1(str)));
+		}
 
-				} else {
-					list.add(str.substring(k, i).toLowerCase());
-					k = i;
-				}
+	}
+
+	public static String[] str1(String str) {
+		List<String> list = new ArrayList<>();
+		int len = str.length();
+		int pre = 0;
+		for (int i = 1; i < len;) {
+			while (i < len && Character.isLowerCase(str.charAt(i))) {
+				i++;
 			}
-			list.add(str.substring(k, str.length()).toLowerCase());
-			list.remove(0);
-			String[] split = new String[list.size()];
-			for (int i = 0; i < list.size(); i++) {
-				split[i] = list.get(i);
+			list.add(str.substring(pre, i).toLowerCase());
+			pre = i;
+			i++;
+		}
+		String s[] = new String[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			s[i] = list.get(i);
+		}
+		return s;
+	}
+
+	public static String str(String str[]) {
+		StringBuilder sb = new StringBuilder();
+		for (String s : str) {
+			char[] c = s.toCharArray();
+			char lowerCase = Character.toUpperCase(c[0]);
+			c[0] = lowerCase;
+			sb.append(c);
+		}
+		sb.append(" ");
+		int i = 0;
+		for (String s : str) {
+			if (i == 0) {
+				sb.append(s);
+				i++;
+			} else {
+				char[] c = s.toCharArray();
+				char lowerCase = Character.toUpperCase(c[0]);
+				c[0] = lowerCase;
+				sb.append(c);
 			}
-			sb.append(str).append(" ").append(get2(split)).append(" ").append(get(split)).append(" ")
-					.append(get1(split)).append(" ");
-			System.out.println(sb.toString());
 		}
-	}
-
-	// PascalCaseTest
-	public static String get3(String[] c) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < c.length; i++) {
-			char[] charArray = c[i].toCharArray();
-			charArray[0] = Character.toUpperCase(charArray[0]);
-			sb.append(charArray);
-		}
-		return sb.toString();
-	}
-
-	// pascalCaseTest
-	public static String get2(String[] c) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(c[0]);
-		for (int i = 1; i < c.length; i++) {
-			char[] charArray = c[i].toCharArray();
-			charArray[0] = Character.toUpperCase(charArray[0]);
-			sb.append(charArray);
-		}
-		return sb.toString();
-	}
-
-	// _
-	public static String get(String[] c) {
-		StringBuilder sb = new StringBuilder();
-		for (String s : c) {
-			sb.append(s).append("_");
-		}
-		sb.deleteCharAt(sb.length() - 1);
-		return sb.toString();
-	}
-
-	// -
-	public static String get1(String[] c) {
-		StringBuilder sb = new StringBuilder();
-		for (String s : c) {
-			sb.append(s).append("-");
-		}
-		sb.deleteCharAt(sb.length() - 1);
+		sb.append(" ");
+		String join = String.join("_", str);
+		sb.append(join);
+		sb.append(" ");
+		String join1 = String.join("-", str);
+		sb.append(join1);
 		return sb.toString();
 	}
 }

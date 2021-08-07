@@ -21,29 +21,33 @@ import leetcode_tree.TreeNode;
  */
 public class M_328 {
 	public static void main(String[] args) {
-		ListNode create = ListNode.create(2);
-		ListNode.print(oddEvenList(create));
+		ListNode create = ListNode.create(7);
+		ListNode oddEvenList = oddEvenList(create);
+		ListNode.print(oddEvenList);
 	}
 
 	public static ListNode oddEvenList(ListNode head) {
 		if (head == null || head.next == null)
-			return null;
-		ListNode evenHead = null;
-		evenHead = head.next;
-		ListNode p = head;
-		ListNode q = head.next;
-		ListNode r = null;
-		while ( p.next != null) {
-			r = q.next;
-			if (r == null) {
+			return head;
+		ListNode odd = head;
+		ListNode even = head.next;
+		ListNode p = odd;
+		ListNode q = even;
+		while (p != null && q != null) {
+			if (q.next == null) {
 				break;
 			}
-			p.next = r;
-			p = r;
-			q.next = p == null ? null : p.next;
-			q = p == null ? null : p.next;
+			p.next = q.next;
+			p = q.next;
+			if (p == null) {
+				q.next = null;
+				q = null;
+			} else {
+				q.next = p.next;
+				q = p.next;
+			}
 		}
-		p.next = evenHead;
-		return head;
+		p.next = even;
+		return odd;
 	}
 }

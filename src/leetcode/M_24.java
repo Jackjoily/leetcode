@@ -9,7 +9,7 @@ import leetcode_list.ListNode;
 
 public class M_24 {
 	public static void main(String[] args) {
-		ListNode create = ListNode.create(1);
+		ListNode create = ListNode.create(8);
 		ListNode.print(swapPairs(create));
 	}
 
@@ -17,19 +17,30 @@ public class M_24 {
 		if (head == null || head.next == null)
 			return head;
 		ListNode p = head;
-		ListNode q = head.next;
-		ListNode head1 = q;
-		ListNode r = null;
-		ListNode pre = new ListNode();
-		while (q != null) {
-			pre.next = q;
-			r = q.next;
-			pre = p;
-			q.next = p;
-			p.next = r;
-			p = r;
-			q = r == null ? null : r.next;
+		ListNode pre = null;
+		ListNode q = p.next;
+		ListNode next = null;
+		while (p != null) {
+			next = p.next;
+			if (next == null) {
+				pre.next = p;
+				p = null;
+			} else {
+				ListNode n = next.next;
+				if (pre == null) {
+					pre = p;
+					next.next = p;
+					p.next = null;
+					p = n;
+				} else {
+					pre.next = next;
+					pre = p;
+					next.next = p;
+					p.next = null;
+					p = n;
+				}
+			}
 		}
-		return head1;
+		return q;
 	}
 }
